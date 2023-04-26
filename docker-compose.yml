@@ -1,0 +1,70 @@
+version: '2.4'
+
+services:
+  pihole:
+    container_name: pihole
+    hostname: pihole
+    restart: always
+    image: pihole/pihole
+    networks:
+      dns:
+        ipv4_address: 172.20.0.9
+    depends_on:
+      google-8.8.8.8:
+        condition: service_started
+      cloudflare-1.1.1.1:
+        condition: service_started
+    volumes:
+      - ./config:/etc/pihole/
+      - ./dnsmasq.d:/etc/dnsmasq.d/
+      - /etc/localtime:/etc/localtime
+    ports:
+      - '7003:80'
+      - '8053:53/tcp'
+      - '8053:53/udp'
+    environment:
+      - ServerIP=127.0.0.1
+      - WEBPASSWORD=ChangeMe
+      - PIHOLE_DNS_=172.20.0.10;172.20.0.12
+
+  cloudflare-1.1.1.1:
+    container_name: cloudflare-1.1.1.1
+    hostname: cloudflare-1.1.1.1
+    restart: always
+    image: visibilityspots/cloudflared
+    networks:
+      dns:
+        ipv4_address: 172.20.0.10
+    expose:
+      - '53/tcp'
+      - '53/udp'
+    environment:
+      - PORT=53
+      - UPSTREAM1=https://1.1.1.1/dns-query
+      - UPSTREAM2=https://1.1.1.1/dns-query
+    volumes:
+      - /etc/localtime:/etc/localtime
+
+  google-8.8.8.8:
+    container_name: google-8.8.8.8
+    hostname: google-8.8.8.8
+    restart: always
+    image: visibilityspots/cloudflared
+    networks:
+      dns:
+        ipv4_address: 172.20.0.12
+    expose:
+      - '53/tcp'
+      - '53/udp'
+    environment:
+      - PORT=53
+      - UPSTREAM1=https://8.8.8.8/dns-query
+      - UPSTREAM2=https://8.8.8.8/dns-query
+    volumes:
+      - /etc/localtime:/etc/localtime
+
+networks:
+  dns:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
