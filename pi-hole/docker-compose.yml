@@ -20,8 +20,8 @@ services:
       - /etc/localtime:/etc/localtime
     ports:
       - '7003:80'
-      - '8053:53/tcp'
-      - '8053:53/udp'
+      - '53:53/tcp'
+      - '53:53/udp'
     environment:
       - ServerIP=127.0.0.1
       - WEBPASSWORD=ChangeMe
