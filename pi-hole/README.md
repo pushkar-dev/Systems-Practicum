@@ -53,5 +53,5 @@ sudo docker compose up -d
 ```
 
 ## Accesing the admin portal
-Visit 127.0.0.1:7003 and current password will be change me but you can change it in docker-compose.yml file.
+Visit 127.0.0.1:7003 and current password will be "ChangeMe" but you can change it in docker-compose.yml file.
 
