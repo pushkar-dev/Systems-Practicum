@@ -55,3 +55,12 @@ sudo docker compose up -d
 ## Accesing the admin portal
 Visit 127.0.0.1:7003 and current password will be "ChangeMe" but you can change it in docker-compose.yml file.
 
+# DoH in Action
+## running docker container
+![docker contaniers](output1.png)
+## pi-Hole Server
+![pi-Hole Admin portal](pihole.png)
+## Unencrypted DNS Request
+![normal dns](unencrypted.png)
+## Encrypted DNS Request
+![normal dns](encrypted.png)
