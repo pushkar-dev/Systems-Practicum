@@ -8,7 +8,7 @@ app = FastAPI()
 async def resolve_dns(name: str):
     try:
         # Send a DNS over HTTPS (DoH) query to a DoH server
-        url = f"https://cloudflare-dns.com/dns-query?name={name}&type=A"
+        url = f"https://1.1.1.1/dns-query?name={name}&type=A"
         headers = {"accept": "application/dns-json"}
         response = requests.get(url, headers=headers)
 
